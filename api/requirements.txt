@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+python-dotenv
+google-generativeai
+genai-processors
+dataclasses-json
+pydantic
