@@ -43,9 +43,9 @@ export default async function handler(req, res) {
         };
 
         const orchestrator = new Orchestrator(query, history, onStatusUpdate);
-        const result = await orchestrator.run();
+        const { finalAnswer, history: updatedHistory } = await orchestrator.run();
 
-        sendEvent({ type: 'result', data: { text: result, modelUsed: 'KRAMER' } });
+        sendEvent({ type: 'result', data: { text: finalAnswer, modelUsed: 'KRAMER' } });
 
     } catch (error) {
         console.error('KRAMER execution error:', error);

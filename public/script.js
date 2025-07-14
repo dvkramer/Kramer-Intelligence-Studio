@@ -234,7 +234,7 @@ async function _sendMessageToServer(historyToProcess) {
     showLoading(); // Show initial "Thinking..."
     try {
         const payload = { history: [...historyToProcess] };
-        console.log("Sending payload to /api/chat:", { historyLength: payload.history.length });
+        console.log("Sending payload to /api/chat:", JSON.stringify(payload, null, 2));
 
         const response = await fetch('/api/chat', {
             method: 'POST',

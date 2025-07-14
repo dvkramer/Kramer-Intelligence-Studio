@@ -68,7 +68,7 @@ class Orchestrator {
 
         this.onStatusUpdate("Done.");
 
-        return finalAnswer;
+        return { finalAnswer, history: this.history };
     }
 }
 

@@ -13,6 +13,14 @@ Synthesize these results into a single, cohesive answer for the user.`;
         const gemini = new Gemini();
         const result = await gemini.generateText(prompt, history);
         console.log("KRAMER Synthesizer: Gemini result:", result);
+        history.push({
+            role: 'user',
+            parts: [{ text: query }]
+        });
+        history.push({
+            role: 'model',
+            parts: [{ text: result }]
+        });
         return result;
     }
 }
