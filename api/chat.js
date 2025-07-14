@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         return res.end();
     }
 
-    const latestMessage = history[history.length - 1];
+    const latestMessage = history.pop();
     const query = latestMessage.parts.find(p => p.text)?.text;
     if (!query) {
         sendEvent({ type: 'error', data: { message: 'Could not find text in the latest message.' } });

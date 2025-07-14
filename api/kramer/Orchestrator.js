@@ -4,9 +4,9 @@ import Critic from './Critic.js';
 import Synthesizer from './Synthesizer.js';
 
 class Orchestrator {
-    constructor(query, chatHistory = [], onStatusUpdate = () => {}) {
+    constructor(query, history = [], onStatusUpdate = () => {}) {
         this.query = query;
-        this.chatHistory = chatHistory;
+        this.history = history;
         this.onStatusUpdate = onStatusUpdate;
         this.plan = null;
         this.taskResults = {};
@@ -21,7 +21,7 @@ class Orchestrator {
 
         // 1. Planning
         this.onStatusUpdate("Planning...");
-        this.plan = await this.planner.generatePlan(this.query, this.chatHistory);
+        this.plan = await this.planner.generatePlan(this.query, this.history);
         this.onStatusUpdate(`Plan created with ${this.plan.plan.length} steps.`);
 
         // 2. Execution Loop
@@ -64,7 +64,7 @@ class Orchestrator {
 
         // 3. Synthesis
         this.onStatusUpdate("Synthesizing final answer...");
-        const finalAnswer = await this.synthesizer.synthesize(this.query, this.taskResults, this.chatHistory);
+        const finalAnswer = await this.synthesizer.synthesize(this.query, this.taskResults, this.history);
 
         this.onStatusUpdate("Done.");
 
