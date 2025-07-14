@@ -10,7 +10,13 @@ class Gemini {
         this.genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     }
 
-    async generateText(prompt, history = [], useGoogleSearch = false) {
+    async startChat(history) {
+        const model = this.genAI.getGenerativeModel({ model: MODELS[0] });
+        const chat = model.startChat({ history });
+        return chat;
+    }
+
+    async generateText(prompt, useGoogleSearch = false) {
         let currentModelIndex = 0;
 
         while (true) {
@@ -29,26 +35,14 @@ class Gemini {
 
                 const tools = useGoogleSearch ? [{ "googleSearch": {} }] : [];
 
-                if (history.length > 1) {
-                    const chat = model.startChat({
-                        history,
-                        generationConfig,
-                        tools
-                    });
-                    const result = await chat.sendMessage(prompt);
-                    const response = await result.response;
-                    return response.text();
+                const result = await model.generateContent({
+                    contents: [{ role: "user", parts: [{ text: prompt }] }],
+                    generationConfig,
+                    tools,
+                });
 
-                } else {
-                    const result = await model.generateContent({
-                        contents: [{ role: "user", parts: [{ text: prompt }] }],
-                        generationConfig,
-                        tools,
-                    });
-                    const response = await result.response;
-                    return response.text();
-                }
-
+                const response = await result.response;
+                return response.text();
             } catch (error) {
                 if (error.status === 429) {
                     console.warn(`KRAMER Gemini: Model ${modelName} is rate-limited. Trying next model.`);
