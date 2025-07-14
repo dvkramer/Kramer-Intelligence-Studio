@@ -30,7 +30,7 @@ class Gemini {
                 const tools = useGoogleSearch ? [{ "googleSearch": {} }] : [];
 
                 const chat = model.startChat({
-                    history: history,
+                    history: this.sanitizeHistory(history),
                     generationConfig,
                     tools
                 });
@@ -52,6 +52,16 @@ class Gemini {
                 }
             }
         }
+    }
+
+    sanitizeHistory(history) {
+        if (!history || !Array.isArray(history)) {
+            return [];
+        }
+        return history.map(message => ({
+            role: message.role,
+            parts: message.parts
+        }));
     }
 }
 
