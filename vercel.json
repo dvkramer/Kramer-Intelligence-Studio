@@ -2,7 +2,23 @@
   "builds": [
     {
       "src": "api/index.py",
-      "use": "@vercel/python"
+      "use": "@vercel/python",
+      "config": {
+        "excludeFiles": [
+          "app/**",
+          "components/**",
+          "node_modules/**",
+          "public/**",
+          ".next/**",
+          "build/**",
+          "out/**",
+          "*.js",
+          "*.json",
+          "*.ts",
+          "*.tsx",
+          "*.mjs"
+        ]
+      }
     },
     {
       "src": "package.json",
