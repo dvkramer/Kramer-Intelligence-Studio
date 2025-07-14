@@ -64,7 +64,7 @@ class Orchestrator {
 
         // 3. Synthesis
         this.onStatusUpdate("Synthesizing final answer...");
-        const finalAnswer = await this.synthesizer.synthesize(this.query, this.taskResults, this.history);
+        const finalAnswer = await this.synthesizer.synthesize(this.query, this.history, this.taskResults);
 
         this.onStatusUpdate("Done.");
 

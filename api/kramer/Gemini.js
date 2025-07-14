@@ -29,26 +29,15 @@ class Gemini {
 
                 const tools = useGoogleSearch ? [{ "googleSearch": {} }] : [];
 
-                if (history.length > 1) {
-                    const chat = model.startChat({
-                        history,
-                        generationConfig,
-                        tools
-                    });
-                    const result = await chat.sendMessage(prompt);
-                    const response = await result.response;
-                    return response.text();
+                const chat = model.startChat({
+                    history: history,
+                    generationConfig,
+                    tools
+                });
 
-                } else {
-                    const result = await model.generateContent({
-                        contents: [{ role: "user", parts: [{ text: prompt }] }],
-                        generationConfig,
-                        tools,
-                    });
-                    const response = await result.response;
-                    return response.text();
-                }
-
+                const result = await chat.sendMessage(prompt);
+                const response = await result.response;
+                return response.text();
             } catch (error) {
                 if (error.status === 429) {
                     console.warn(`KRAMER Gemini: Model ${modelName} is rate-limited. Trying next model.`);

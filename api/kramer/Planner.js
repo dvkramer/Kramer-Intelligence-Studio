@@ -1,7 +1,7 @@
 import Gemini from './Gemini.js';
 
 class Planner {
-    async generatePlan(query, history = []) {
+    async generatePlan(query, history) {
         console.log("KRAMER Planner: Generating plan for query:", query);
         const prompt = `Based on the user's query, create a plan to answer it. The plan should be a list of tasks with dependencies.
 User Query: ${query}
