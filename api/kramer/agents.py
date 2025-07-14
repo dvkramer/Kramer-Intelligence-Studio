@@ -29,9 +29,6 @@ class ExecutorAgent(processor.Processor):
         p_model = genai_model.GenaiModel(
             api_key=api_key,
             model_name=config.model_name,
-            generate_content_config=genai_types.GenerateContentConfig(
-                tools=[genai_types.Tool(google_search=genai_types.GoogleSearch())]
-            )
         )
         self._pipeline = p_preamble + p_model
 
