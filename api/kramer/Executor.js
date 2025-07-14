@@ -11,7 +11,7 @@ ${JSON.stringify(dependencies, null, 2)}
 Provide a direct answer to the task.`;
 
         const gemini = new Gemini();
-        const result = await gemini.generateText(prompt, true); // Use Google Search
+        const result = await gemini.generateText(prompt, [], true); // Use Google Search
         console.log("KRAMER Executor: Gemini result:", result);
         return result;
     }
