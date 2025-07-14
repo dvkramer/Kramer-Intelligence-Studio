@@ -29,20 +29,21 @@ export default async function handler(req, res) {
         return res.end();
     }
 
-    const latestMessage = history.pop();
-    const query = latestMessage.parts.find(p => p.text)?.text;
+    const query = history[history.length - 1].parts.find(p => p.text)?.text;
     if (!query) {
         sendEvent({ type: 'error', data: { message: 'Could not find text in the latest message.' } });
         return res.end();
     }
     console.log("User query:", query);
 
+    const chatHistory = history.slice(0, -1);
+
     try {
         const onStatusUpdate = (status) => {
             sendEvent({ type: 'status', data: { status } });
         };
 
-        const orchestrator = new Orchestrator(query, history, onStatusUpdate);
+        const orchestrator = new Orchestrator(query, chatHistory, onStatusUpdate);
         const result = await orchestrator.run();
 
         sendEvent({ type: 'result', data: { text: result, modelUsed: 'KRAMER' } });
