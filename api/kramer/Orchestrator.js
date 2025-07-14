@@ -47,16 +47,16 @@ class Orchestrator {
                 dependencyResults[depId] = this.taskResults[depId];
             }
 
-            let result = await this.executor.executeTask(task, dependencyResults);
+            let result = await this.executor.executeTask(task, dependencyResults, this.history);
             this.onStatusUpdate(`Critiquing task ${completedTasks + 1}/${totalTasks}...`);
-            let critique = await this.critic.critique(this.query, task, result);
+            let critique = await this.critic.critique(this.query, task, result, this.history);
 
             if (critique.status === 'success') {
                 this.taskResults[task.id] = result;
                 completedTasks++;
             } else {
                 this.onStatusUpdate(`Task ${completedTasks + 1}/${totalTasks} failed critique, retrying...`);
-                result = await this.executor.executeTask(task, dependencyResults);
+                result = await this.executor.executeTask(task, dependencyResults, this.history);
                 this.taskResults[task.id] = result; // Assume success on retry
                 completedTasks++;
             }

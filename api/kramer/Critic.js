@@ -1,7 +1,7 @@
 import Gemini from './Gemini.js';
 
 class Critic {
-    async critique(query, task, result) {
+    async critique(query, task, result, history) {
         console.log("KRAMER Critic: Critiquing task:", task);
         console.log("KRAMER Critic: Result:", result);
         const prompt = `The user's original query was: "${query}".
@@ -13,7 +13,7 @@ Return a JSON object with "status" ("success" or "failure") and "justification".
 
         const gemini = new Gemini();
         try {
-            let response = await gemini.generateText(prompt);
+            let response = await gemini.generateText(prompt, history);
             console.log("KRAMER Critic: Gemini response:", response);
             // Clean the response by removing markdown backticks and the "json" language specifier
             response = response.replace(/```json/g, '').replace(/```/g, '');
