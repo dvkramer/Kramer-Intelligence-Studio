@@ -1,7 +1,7 @@
 import Gemini from './Gemini.js';
 
 class Synthesizer {
-    async synthesize(query, results) {
+    async synthesize(query, results, history = []) {
         console.log("KRAMER Synthesizer: Synthesizing results for query:", query);
         console.log("KRAMER Synthesizer: Results:", results);
         const prompt = `The user's original query was: "${query}".
@@ -11,7 +11,7 @@ ${JSON.stringify(results, null, 2)}
 Synthesize these results into a single, cohesive answer for the user.`;
 
         const gemini = new Gemini();
-        const result = await gemini.generateText(prompt);
+        const result = await gemini.generateText(prompt, history);
         console.log("KRAMER Synthesizer: Gemini result:", result);
         return result;
     }

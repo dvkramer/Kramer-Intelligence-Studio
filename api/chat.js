@@ -42,7 +42,7 @@ export default async function handler(req, res) {
             sendEvent({ type: 'status', data: { status } });
         };
 
-        const orchestrator = new Orchestrator(query, onStatusUpdate);
+        const orchestrator = new Orchestrator(query, history, onStatusUpdate);
         const result = await orchestrator.run();
 
         sendEvent({ type: 'result', data: { text: result, modelUsed: 'KRAMER' } });
